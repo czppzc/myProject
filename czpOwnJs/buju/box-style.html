@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .out{
+        width: 400px;
+        height: 400px;
+        padding: 30px;
+        background: red;
+        margin: 0 auto;
+    }
+    .out div{
+        width: 100%;
+        height: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div class="out">
+    <div></div>
+    </div>
+    <script>
+    var lastTime=new Date().getTime();
+    var count=0;
+    var loop=function(){
+        var now=new Date().getTime();
+        count++
+        if(now-lastTime>=1000){
+         lastTime=now;
+         console.log(count,"测试")
+         count=0;
+        
+        }
+        requestAnimationFrame(loop)
+    }
+    loop()
+    </script>
+</body>
+</html>

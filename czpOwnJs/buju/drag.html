@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .drag-box{
+        width: 80px;
+        height: 80px;
+        border: 1px solid pink;
+        background: pink;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+    }
+    </style>
+</head>
+<body>
+   <div class="drag-box"></div>
+   <script src='../../ononcetrigger.js'></script>
+   <script>
+    class Drag extends EventEmitter{
+        constructor(el){
+            super();
+            this.el=el;
+            this.dis={};
+            var handleMove=(e) => {
+                this.emit('move',this.el)
+                this.handleMove(e)
+            }
+            el.addEventListener('mousedown',(e) => {
+                this.handleDown(e);
+                document.addEventListener('mousemove',handleMove)
+                el.addEventListener('mouseup',(e) => {
+                this.emit('up',this.el)
+                document.removeEventListener('mousemove',handleMove)
+                })
+            })
+
+        }
+        handleDown = (e) =>{
+            console.log(100)
+         let {el}=this;
+         this.dis={
+         left:e.clientX-el.offsetLeft,
+         top:e.clientY-el.offsetTop
+         }
+        }
+        handleMove = (e) => {
+          let {el}=this;
+          el.style.left=(e.clientX-this.dis.left)<=0?0:(e.clientX-this.dis.left)+'px';
+          el.style.top=(e.clientY-this.dis.top)<=0?0:(e.clientY-this.dis.top)+'px';
+        }
+    }
+    (function(){
+        let  el=document.querySelector('.drag-box');
+        let newDrag=new Drag(el);
+        console.log(newDrag)
+        newDrag.on('move',function(){
+            console.log(100)
+            this.style.background='red'
+        })
+        newDrag.on('up',function(){
+            console.log(100)
+            this.style.background='pink'
+        })
+    })()
+   </script>
+</body>
+</html>

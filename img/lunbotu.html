@@ -1,0 +1,212 @@
+<html>
+
+<head>
+    <style>
+        .out-ul {
+            width: 600px;
+            height: 400px;
+            position: relative;
+            padding: 0;
+            margin: 0 auto;
+        }
+        
+        .item {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            list-style: none;
+            opacity: 0;
+            transition: opacity .5s;
+        }
+        
+        .item:nth-child(1) {
+            background: pink;
+        }
+        
+        .item:nth-child(2) {
+            background: rgb(99, 75, 79);
+        }
+        
+        .item:nth-child(3) {
+            background: rgb(24, 36, 148);
+        }
+        
+        .item:nth-child(4) {
+            background: rgb(77, 196, 73);
+        }
+        
+        .item:nth-child(5) {
+            background: rgb(212, 136, 50);
+        }
+        
+        .item.active {
+            z-index: 10;
+            opacity: 1;
+        }
+        
+        .btn {
+            position: absolute;
+            width: 40px;
+            height: 80px;
+            z-index: 100;
+        }
+        
+        #goNext {
+            right: 0;
+            top: 160px;
+        }
+        
+        #goPre {
+            left: 0;
+            top: 160px;
+        }
+        
+        .dot-ul {
+            position: absolute;
+            z-index: 100;
+            right: 40px;
+            bottom: 20px;
+        }
+        
+        .dot-lock {
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            list-style: none;
+            border: 2px solid #f3f6f9;
+            float: left;
+            margin-left: 6px;
+            background: #ffffff;
+            cursor: pointer
+        }
+        
+        .dot-lock.active {
+            background: #b1b3b6;
+        }
+        
+        .item img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="out-ul">
+        <li class="item active"></li>
+        <li class="item"></li>
+        <li class="item"></li>
+        <li class="item"></li>
+        <li class="item"></li>
+        <button class="btn" id="goNext"> > </button>
+        <button class="btn" id="goPre">
+            < </button>
+        <ul class="dot-ul">
+            <li class="dot-lock active"></li>
+            <li class="dot-lock"></li>
+            <li class="dot-lock"></li>
+            <li class="dot-lock"></li>
+            <li class="dot-lock"></li>
+        </ul>
+    </ul>
+    <script>
+        var items = document.getElementsByClassName('item');
+        var goNextBtn = document.getElementById('goNext');
+        var goPreBtn = document.getElementById('goPre');
+        var dorItems = document.getElementsByClassName('dot-lock')
+        var dotUl = document.querySelector('.dot-ul')
+        var index = 0;
+        var time = 0;
+        var imgArr = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+        for (var i = 0; i < items.length; i++) {
+            var img = document.createElement('img');
+            img.src = imgArr[i];
+            items[i].appendChild(img)
+        }
+        var goIndex = function(mes) {
+            for (var i = 0; i < items.length; i++) {
+                items[i].className = "item"
+            }
+            for (var i = 0; i < dorItems.length; i++) {
+                dorItems[i].className = "dot-lock"
+            }
+            console.log(index)
+            items[index].className = "item active"
+            dorItems[index].className = "dot-lock active"
+            time = -20;
+        }
+        var debounceFunc = debounce(goIndex, 1000); //防抖函数
+        var throttleFunc = throttle(goIndex, 1000) //节流函数
+        for (var i = 0; i < dorItems.length; i++) {
+            dorItems[i].setAttribute('index', i)
+        }
+        goNextBtn.onclick = function() {
+            if (index < 4) {
+                index++
+            } else {
+                index = 0;
+            }
+            //debounceFunc('abcd')
+            // throttleFunc('come in')
+            goIndex()
+        }
+        goPreBtn.onclick = function() {
+            if (index > 0) {
+                index--
+            } else {
+                index = 4;
+            }
+            goIndex()
+        }
+        dotUl.onclick = function(e) {
+                console.log(e.target)
+                console.log(e.currentTarget)
+                index = e.target.getAttribute('index');
+                goIndex();
+            }
+            //防抖函数
+        function debounce(fn, delay) {
+            var timer;
+            delay = delay || 500;
+            return function(...args) {
+                if (timer) {
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(() => {
+                    console.log(fn)
+                    fn.apply(this, args);
+                    timer = null;
+                }, delay)
+            }
+        }
+        //节流函数
+        function throttle(fn, delay) {
+            var lastime = 0;
+            return function(...arg) {
+                var that = this;
+                var nowtime = new Date().getTime();
+                if (nowtime - lastime > delay) {
+                    fn.apply(that, arg);
+                    lastime = nowtime;
+                }
+
+            }
+        }
+        setInterval(() => {
+            time++;
+            if (time == 20) {
+                if (index < 4) {
+                    index++
+                } else {
+                    index = 0
+                }
+                goIndex()
+            } else if (time > 20) {
+                time = 0;
+            }
+        }, 100)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="text" type="text">
+    <button id="btn">清空</button>
+    <script src="proxy.js"></script>
+    <script>
+        var oInput=document.getElementById('text');
+        var oButton=document.getElementById('btn');
+        var ele = Dom.div({ id: 'test' }, '1234')
+        //Dom.a({ href: 'https://www.baidu.com' }, '访问百度'))
+        //console.log(ele)
+        //console.log(typeof ele)
+        var i=0;
+        var value='';
+        document.body.appendChild(ele)
+        var oDiv = document.getElementById('test');
+        var obj = { name: '测试页面' }
+        var jackObj = new Proxy(obj, {
+            set(target, key, value) {
+                oDiv.innerText = value;
+                obj[key] = value
+            },
+            get(target, key) {
+
+            }
+        })
+        //Object.assign(jackObj,{name:'我要通过object.assign来改变变量'})
+        oInput.oninput=function(e){
+            jackObj.name=e.target.value;
+        }
+        oButton.onclick=function(){
+            jackObj.name=value;
+            oInput.value=''
+        }
+      /*   setInterval(() => {
+            jackObj.name=i;
+            i++
+        },300) */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li {
+            line-height: 30px;
+            list-style: none;
+            transition: background 0.5s;
+            background: #ffffff;
+        }
+        button{
+            width: 80px;
+            height: 40px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="list"></ul>
+    <button id="btn">测试事件绑定</button>
+    <script>
+        //一个简单的递归处理思想
+        let ulEle = document.getElementById('list')
+        let btn=document.getElementById('btn');
+        btn.addEventListener('click',(e) => {
+            console.log(e.target)
+        },true)
+        let data = [{
+            name: "第一阶段打好css基础",
+            children: [{
+                name: "开始学习css"
+            }, {
+                name: "开始学习行内标签"
+            }, {
+                name: "开始学习block"
+            }, {
+                name: "开始学习flex"
+            }]
+        }, {
+            name: "第二阶段打好js基础",
+            children: [{
+                name: "开始学习js"
+            }]
+        }, {
+            name: "第三阶段打好框架基础",
+            children: [{
+                name: "开始学习框架"
+            }]
+        }]
+        var all = document.getElementsByTagName('*');
+        //console.log(all,"test")
+        ulEle.onmouseover = function (e) {
+            removeStyle()
+            if (e.target.nodeName == "LI") {
+                e.target.style.background = "#8b8a8a"
+            }
+            //eventEmitter.trigger('click', "你要被我执行了")
+        }
+
+        function removeStyle() {
+            var liArr = ulEle.children;
+            for (var i = 0; i < liArr.length; i++) {
+                liArr[i].style.background = "#ffffff"
+            }
+        }
+        ulEle.onmouseout = function () {
+            removeStyle()
+        }
+
+        function createHtml(data, level = 0) {
+            return data.map((v, i) => {
+                let str = `<li style="padding-left:${level*30}px">${level+i}-${v.name}</li>`;
+                if (Array.isArray(v.children)) {
+                    str += createHtml(v.children, level + 1)
+                }
+                return str
+            }).join('')
+        }
+        //深拷贝
+        function deepClone(data, type) {
+            let res = type || [];
+            for (let prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    if (typeof data[prop] === 'object' && data[prop]) {
+                        if (Array.isArray(data[prop])) {
+                            res[prop] = deepClone(data[prop], [])
+                        } else {
+                            res[prop] = deepClone(data[prop], {})
+                        }
+
+                    } else {
+                        res[prop] = data[prop]
+                    }
+                }
+            }
+            return res
+        }
+        //节流函数
+        function throttle(fn, time = 500) {
+            let lastTime = 0;  //被保存下来与当前时间对比，是否触发函数
+            return function (...arg) {
+                let that = this;
+                let nowTime = new Date().getTime();
+                if (nowTime - lastTime > time) {
+                    fn.apply(that, arg);
+                    lastTime = nowTime;
+                }
+
+            }
+        }
+        //防抖函数
+        function debounce(fn, time = 500) {
+            let timer = null; //保存下来是否clearTimeout
+            return function (...arg) {
+                if (timer) {
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(() => {
+                    fn.apply(this, arg);
+                    timer = null;
+                }, time)
+            }
+        }
+        var throttles=throttle(() => {console.log(100)},500);
+        var debounces=debounce(() => {console.log(200)},500)
+        //观察者模式 被观察者 观察者
+        class EventEmitter {
+            constructor() {
+                this.event = {}
+            }
+            on(name, callBack, times = null) {
+                if (!this.event[name]) {
+                    this.event[name] = []
+                }
+                this.event[name].push({
+                    fn: callBack,
+                    times: times
+                })
+            }
+            //事件触发一次后立即清除
+            once(name, callBack) {
+                this.on(name, callBack, 1)
+            }
+            trigger(name, ...arg) {
+                this.event[name] &&
+                    this.event[name].forEach(v => {
+                        console.log(this)
+                        v.fn.apply(this, arg);
+                        if (v.times) {
+                            v.times--;
+                            v.times == 0 && this.off(name)
+                        }
+                    });
+            }
+            off(name) {
+                this.event[name] && delete this.event[name]
+            }
+        }
+        Function.prototype.mybind = function (thisArg, ...arg) {
+            let that = this;
+            let fop = function () {}
+            let fn = function (...data) {
+                let _this = this instanceof fop ? this : thisArg;
+                that.apply(_this, [...arg, ...data])
+            }
+            /* fn.prototype = Object.create(this.prototype);
+            fn.prototype.constructor = fn; */
+            /*新的写法*/
+            if (this.prototype) {
+                fop.prototype = this.prototype;
+            }
+            fn.prototype = new fop();
+            return fn
+        }
+        let eventEmitter = new EventEmitter();
+        eventEmitter.on('click', (text) => {
+            alert(text)
+        })
+        let str = createHtml(deepClone(data, []));
+        ulEle.innerHTML = str;
+
+        function deepAnClone(data) {
+            let res = null;
+            if (typeof data == "object" && data) {
+                res = Array.isArray(data) ? [] : {};
+                for (let prop in data) {
+                    res[prop] = deepAnClone(data[prop])
+                }
+            } else {
+                return data
+            }
+            return res
+        }
+    </script>
+</body>
+
+</html>

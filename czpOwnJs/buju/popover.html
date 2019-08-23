@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .select {
+            width: 150px;
+            height: 28px;
+            border: 1px solid #222324;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        li {
+            list-style: none;
+            border: 1px solid #222324
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        ul {
+            width: 150px;
+            padding: 0;
+            opacity: 0;
+        }
+        #input{
+            opacity: 0;
+            width: 173px;
+        }
+        .input{
+            margin: 0 auto;
+            width: 173px;
+        }
+        input{
+            height: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="select"></div>
+    <ul class="list">
+        <li class='text'>1235217321</li>
+        <li class='text'>23232323223</li>
+        <li class='text'>32323232323</li>
+    </ul>
+    <div>
+        <div class="input"><input type="text" class="texts"></div>
+        <ul id="input">
+            <li class="habby">小明爱吃饭</li>
+            <li class="habby">小刚爱吃肉</li>
+            <li class="habby">小红爱刷剧</li>
+        </ul>
+    </div>
+    <script>
+        var selectBox = document.querySelector('.select');
+        var list = document.querySelector('.list');
+        var input=document.getElementById('input')
+        var texts=document.querySelector('.texts')
+        selectBox.addEventListener('mouseover', (e) => {
+            //console.log('dsss')
+            list.style.opacity = 1;
+            document.addEventListener('mousemove',changeOpacity)
+           /*  document.onmousemove = function (e) {
+                console.log(e.target.id)
+               
+            } */
+        })
+        texts.addEventListener('focus',()=> {
+          input.style.opacity=1;
+          document.addEventListener('click',clickEleJudge)
+        })
+        function clickEleJudge(e){
+            console.log('事件没有被清除')
+         var str=e.target.className;
+         if(str!='habby'&&str!='texts'){
+            input.style.opacity=0;
+            document.removeEventListener('click',clickEleJudge)
+         }
+        }
+       function changeOpacity(e){
+           var name=e.target.className;
+        if (name != 'select'&&name != 'text') {
+                    list.style.opacity=0;
+                    document.removeEventListener('mousemove',changeOpacity)
+                }
+           //console.log(e.target.className)
+            //list.style.opacity = 0;
+        }
+        /* selectBox.addEventListener('mouseout',(e) => {
+            console.log(e.target.id)
+        }) */
+    </script>
+</body>
+
+</html>

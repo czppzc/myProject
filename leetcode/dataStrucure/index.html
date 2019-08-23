@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        button {
+            width: 80px;
+            height: 40px;
+        }
+        div{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div><span>12314234</span></div>
+    <button id="btn"></button>
+    <script src='tree.js'></script>
+    <script>
+        //这个题目解决了谁先点击就取谁的数据，即使后面的数据比前面的数据获取的要快
+        var btn = document.getElementById('btn');
+        var list = [];
+        var i = 0;
+        var eventArr = [fn1, fn2];
+        var debounceFn=debounce(test,500)
+        btn.onclick = function () {
+            if (eventArr[i]) {
+                list.push(eventArr[i]);
+                i++;
+            }
+            console.log(list.length)
+            debounceFn(deepClone(list))
+        }
+        function deepClone(data){
+            if(typeof data =="object"&&data){
+              var res=Array.isArray(data)?[]:{};
+              for(let prop in data){
+                  res[prop]=deepClone(data[prop])
+              }
+              return res
+            }else {
+                return data
+            }
+        }
+        function debounce(fn,time){
+            let timer=null;
+            return function(...arg){
+                if(timer){
+                 clearTimeout(timer)
+                }
+                timer=setTimeout(() => {
+                  fn.apply(this,arg)
+                },time)
+            }
+        }
+        function fn1() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(3000);
+                    console.log("我先进去,就应该先出来，虽然我延迟了3s")
+                }, 3000)
+            })
+            /* setTimeout(() => {
+                console.log("我先进去,就应该先出来")
+            }, 100) */
+        }
+        function fn2() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(1000);
+                    console.log("虽然我只延迟一秒，但是我是第二个进去的,就应该后出来,")
+                }, 1000)
+            })
+            /* setTimeout(() => {
+                console.log("我后进去")
+            }, 100) */
+        }
+        /* test([fn1, fn2]) */
+        async function test(list) {
+            console.log(list[0])
+            if (!list.length) {
+                return
+            }
+            /* let data=await fn1() */
+            /* list.shift()(); */
+
+            let data = null;
+            while (list.length > 0) {
+                data = await list.shift()() //从数组的头部拿出第一个元素
+            }
+            console.log(data)
+            console.log("我是最后")
+        }
+    </script>
+</body>
+
+</html>

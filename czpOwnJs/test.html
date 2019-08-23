@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>小球碰撞</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            position: absolute;
+            border-radius: 50%;
+        }
+        body{
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        //var oDiv = document.getElementsByTagName('div')[0];
+        var down = true;
+        var right = true;
+        var bgColorArr = []
+        var balls = []; //存放小球的数组
+        function createBall(num) {
+            console.log(100)
+            for (var i = 0; i < num; i++) {
+                console.log('test')
+                var oDiv = document.createElement('div');
+                oDiv.style.backgroundColor =
+                    `rgb(${getRandomIndex(0,255)},${getRandomIndex(0,255)},${getRandomIndex(0,255)})`
+                oDiv.style.width = oDiv.style.height = getRandomIndex(2, 20) + 'px';
+                oDiv.right = Math.random() > 0.5 ? true : false;
+                oDiv.down = Math.random() > 0.5 ? true : false;
+                oDiv.x = getRandomIndex(1, 10);
+                oDiv.y = getRandomIndex(1, 10);
+                balls.push(oDiv);
+                document.body.appendChild(oDiv);
+                oDiv.style.top = getRandomIndex(1, document.documentElement.clientHeight) - oDiv.offsetHeight + 'px';
+                oDiv.style.left = getRandomIndex(1, document.documentElement.clientWidth) - oDiv.offsetWidth + 'px';
+            }
+        }
+
+        function getRandomIndex(start, end) {
+            return Math.floor(Math.random() * (end - start + 1) + start)
+
+        }
+        createBall(100)
+
+        function run(ele) {
+            console.log(ele.right)
+            setInterval
+                (() => {
+                    if (ele.down) {
+                        ele.style.top = ele.style.top.replace('px', '') * 1 + ele.y + 'px';
+                        if (ele.style.top.replace('px', '') * 1 + ele.offsetHeight >= document.documentElement
+                            .clientHeight) {
+                            ele.down = false;
+                        }
+                    } else {
+                        ele.style.top = ele.style.top.replace('px', '') * 1 + -ele.y + 'px';
+                        if (ele.style.top.replace('px', '') * 1 <= 0) {
+                            ele.down = true;
+                        }
+                    }
+                    if (ele.right) {
+                        ele.style.left = ele.style.left.replace('px', '') * 1 + ele.x + 'px';
+                        if (ele.style.left.replace('px', '') * 1 + ele.offsetWidth > document.documentElement
+                            .clientWidth) {
+                            ele.right = false
+                        }
+                    } else {
+                        ele.style.left = ele.style.left.replace('px', '') * 1 - ele.x + 'px';
+                        if (ele.style.left.replace('px', '') <= 0) {
+                            ele.right = true
+                        }
+                    }
+                })
+        }
+        for (var i = 0; i < balls.length; i++) {
+            run(balls[i])
+        }
+    </script>
+
+</body>
+
+</html>

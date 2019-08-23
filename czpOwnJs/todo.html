@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO-LIST</title>
+    <style>
+        .out-box{
+            margin: 0 auto;
+            height: 400px;
+            width:800px;
+            background: #f3f6f9;
+        }
+        h1{
+            text-align: center;
+        }
+      #addTool{
+          width: 300px;
+          height: 32px;
+          border:1px solid  #d1cece;
+          
+      }
+      ul{
+          width: 300px;
+          padding: 0;
+          margin: 0 auto;
+          background: #ffffff;
+          max-height: 250px;
+          overflow-y: auto;
+          overflow-x: hidden;
+      }
+      li{
+          list-style: none;
+          width: 100%;
+          height: 34px;
+          border: 1px solid #d1cece;
+          border-style:none solid solid solid;
+          position:relative;
+          text-align:left;
+          line-height: 34px;
+      }
+      .content-box{
+          text-align: center;
+      }
+      li:hover button{
+          opacity: 1;
+      }
+      #text-list{
+          opacity: 0;
+      }
+      button{
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          border: none;
+          background: #ffffff;
+          cursor: pointer;
+          opacity:0
+      }
+    </style>
+</head>
+<body>
+    <div class='out-box'>
+        <h1>todos</h1>
+        <div class="content-box">
+        <input type="text" id="addTool">
+        <ul id='text-list'>
+        </ul>
+    </div>
+    </div>
+    <script>
+        var Oinput=document.getElementById('addTool');
+        var Oul=document.getElementById('text-list');
+        var messageArr=[];
+        var searchResult=[];
+        var searchValue=''
+        var debouneSearch=debounce(getSearchResult,500);
+        document.onclick=function(e){
+            console.log(e.target.nodeName)
+            if(e.target.id!='addTool'&&e.target.nodeName!="LI"&&e.target.nodeName!="BUTTON"){
+                Oul.style.opacity=0;
+            }
+
+        }
+        Oinput.onclick=function(){
+            Oul.style.opacity=1; 
+        }
+        Oinput.onkeypress=function(e){
+            if(e.keyCode==13)
+           { 
+               Oul.innerHTML='';
+            messageArr.unshift(e.target.value);
+            appendContent(messageArr);
+            e.target.value=''
+            
+           }
+        }
+       Oinput.oninput=function(e){
+            debouneSearch(e)
+        } 
+        function getSearchResult(e){
+            searchResult=messageArr.filter(v => v.indexOf(e.target.value)!=-1);
+            Oul.innerHTML='';
+            searchValue=e.target.value;
+            appendContent(searchResult,true)
+
+        }
+        //防抖函数
+        function debounce(fn,delay){
+            var timer=null;
+            return function(...arg){
+                if(timer){
+                    clearTimeout(timer)
+                }
+                timer=setTimeout(() => {
+                    fn.apply(this,arg);
+                    timer=null;
+                },delay)
+            }
+        }
+        function appendContent(mes,type){
+            if(type){
+                mes=mes.map(v => {
+                    var reg=new RegExp("("+searchValue+")","g")
+                    return {content:v.replace(reg,"<font color=red>$1</font>"),origin:v}
+                })
+            }
+            mes.forEach((v,i) => {
+               var li=document.createElement('li');
+               var button=document.createElement('button');
+               button.setAttribute('content',v.origin?v.origin:v)
+               button.onclick=function(e){
+                removeChild(e,type)
+               }
+               li.innerHTML=v.content?v.content:v;
+               button.innerText='x';
+               li.appendChild(button);
+               Oul.appendChild(li);
+            })
+        }
+        function removeChild(e,type){
+           var content=e.target.getAttribute('content');
+           messageArr=messageArr.filter((v,i) => v!=content);
+           searchResult=searchResult.filter((v,i) => v!=content);
+           Oul.innerHTML='';
+           appendContent(type?searchResult:messageArr,type?true:false)
+
+        }
+    </script>
+    <script src="test.js"></script>
+</body>
+</html>

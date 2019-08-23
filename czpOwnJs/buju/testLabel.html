@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .trangle{
+        width: 40px;
+        height:40px;
+        margin: 300px auto;
+        border-width:80px 0 80px 80px;
+        border-style: solid;
+        border-color: rgb(38, 167, 55) transparent transparent transparent;
+    }
+    </style>
+</head>
+<body>
+  <div class="trangle">
+
+  </div>
+      <script>
+          let obj={age:18}
+          let temp=null;
+          Object.defineProperty(obj,'age',{
+              get:function(){
+                  console.log(temp,"test")
+                  return temp
+              },
+              set:function(val){
+                  temp=val;
+                  console.log(val,"值")
+              }
+          })
+          console.log(obj.age);
+          obj.age=30;
+      </script>
+</body>
+</html>

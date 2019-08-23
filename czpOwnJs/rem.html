@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>rem布局测试</title>
+    <style>
+        html {
+            font-size: 200px;
+        }
+
+        div {
+            width: 1rem;
+            height: 1rem;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <script src="./lianshiPromise.js"></script>
+    <script>
+        new MyPromise((resolve, reject) => {
+            console.log(1000)
+            setTimeout(() => {
+                resolve(100)
+            },1000)
+        })
+        .then(res => { 
+            console.log(200)
+         return new MyPromise((resolve,reject) => {
+             resolve(res)
+         })    
+        })
+        .then(res => {
+            console.log('第二个then',res)
+        }).then(res => {
+            console.log(res,"第三个then");
+            return new MyPromise((resolve,reject) => {
+                setTimeout(() => {
+                    reject('我出错了')
+                })
+            })
+        }).then(() => {
+
+        },err => {
+            console.log(err,'第四个then')
+        })
+       /*  new Promise((resolve,reject) => {
+            resolve(new Promise((resolve,reject) => {
+                setTimeout(() => {
+                 resolve(100)
+                },2000)
+            }).then(res => {
+                console.log(res)
+            }))
+        }).then(res => {
+            return new Promise((resolve,reject) => {
+                console.log('第一个then',res)
+                resolve(res)
+            })
+        }).then(res => {
+            console.log("第二个then",res)
+        })
+        a=new Promise((resolve,reject) => {
+            setTimeout(() => {
+            resolve(10)
+            },2000)
+        })
+            console.log(a) */
+            var weightArr=[2,4,3,23,32,23,423,4,324,25,43,3,4,234,23,423,4234,23];
+            var valueArr=[3];
+            function bagQues(total,n){
+              if(n<=0){
+                  return 0
+              }
+              if(total<weightArr[n-1]){
+                  return bagQues(total,n-1)
+              }
+              return Math.max(bagQues(total-weightArr[n-1],n-1)+valueArr[n-1],bagQues(total,n-1))
+            }
+            function deepClone(obj){
+                if(typeof obj ==='object'&&obj){
+                    var res=Array.isArray(obj)?[]:{};
+                    for(let prop in obj){
+                        res[prop]=deepClone(obj[prop])
+                    }
+                    return res
+                }else {
+                    return obj
+                }
+            }
+            console.log(bagQues(12,1))
+            Function.prototype.myapply=function(context){
+                var res;
+                context.fn=this;
+                if(arguments[1]){
+                  res=context.fn(arguments[1])
+                }else {
+                    res=context.fn()
+                }
+                delete context.fn
+                return res
+            }
+            Function.prototype.myapply=function(context){
+                var res;
+                context.fn=this;
+                var params=[].slice.call(arguments,1)
+                if(params.length){
+                  res=context.fn(...params)
+                }else {
+                    res=context.fn()
+                }
+                delete context.fn
+                return res
+            }
+    </script>
+</body>
+
+</html>

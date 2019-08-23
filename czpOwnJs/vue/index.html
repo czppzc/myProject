@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="text">
+        <p>{{message}}</p>
+        <p>{{message}}</p>
+        <span onclick="test()">{{name}}</span>
+        <p><input type="text" v-model="message"></p>
+        <p>12321323</p>
+    </div>
+    <script src="myVue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#text',
+            data: {
+                message: 'vue代码测试',
+                name: '小明'
+            }
+        })
+        function test(){
+            vm._data.message="message我被点击了"
+        }
+        vm._data.name="看看有没有触hghgghh发"
+        vm._data.message="我要让message变化"
+    </script>
+</body>
+
+</html>

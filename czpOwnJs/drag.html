@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .drag-box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 80px;
+            background: pink;
+        }
+    </style>
+    <script src="../ononcetrigger.js"></script>
+</head>
+
+<body>
+    <div class="drag-box">
+    </div>
+    <script>
+        console.log(EventEmitter)
+        //import EventEmitter from '../ononcetrigger.js'
+        class Drag extends EventEmitter {
+            constructor(el) {
+                super();
+                this.event = {};
+                this.el = el;
+                this.elStartPos = {},
+                this.mouseStartPos = {}
+                let handlemove = (e) => {
+                    this.handleMove(e)
+                }
+                let handleUp = (e) => {
+                    document.removeEventListener('mousemove', handlemove)
+                    el.removeEventListener('mousemove', handleUp)
+                    this.end(e)
+                }
+                el.addEventListener('mousedown', (e) => {
+                    console.log(100)
+                    this.handleDown(e);
+                    document.addEventListener('mousemove', handlemove)
+                    el.addEventListener('mouseup', handleUp)
+                })
+
+            }
+            handleDown = (e) => {
+                let { el } = this;
+                this.elStartPos = {
+                    left: el.offsetLeft,
+                    top: el.offsetTop
+                }
+                this.mouseStartPos = {
+                    left: e.clientX,
+                    top: e.clientY
+                }
+                this.trigger("mousemove", this.el)
+            }
+            handleMove = (e) => {
+                let {
+                    el,
+                    elStartPos,
+                    mouseStartPos
+                } = this;
+                let dis = {
+                    left: e.clientX - mouseStartPos.left,
+                    top: e.clientY - mouseStartPos.top
+                }
+                el.style.top = elStartPos.top + dis.top + 'px';
+                el.style.left = elStartPos.left + dis.left + 'px';
+            }
+            end = (e) => {
+                this.trigger("dragEnd", this.el)
+            }
+            on(name, callBack, times = null) {
+                if (!this.event[name]) {
+                    this.event[name] = []
+                }
+                this.event[name].push({
+                    fn: callBack,
+                    times: times
+                })
+            }
+            //事件触发一次后立即清除
+            once(name, callBack) {
+                this.on(name, callBack, 1)
+            }
+            trigger(name, _that, ...arg) {
+                this.event[name] &&
+                    this.event[name].forEach(v => {
+                        console.log(_that, "test")
+                        v.fn.apply(_that, arg);
+                        if (v.times) {
+                            v.times--;
+                            v.times == 0 && this.off(name)
+                        }
+                    });
+            }
+            off(name) {
+                this.event[name] && delete this.event[name]
+            }
+        }
+        (function () {
+            let dragEl = document.querySelector('.drag-box');
+            let dragBox = new Drag(dragEl);
+            //一定要记住一点箭头函数的this是固定的，call apply bind 也不能修改
+            //箭头函数的this永远都指向这个函数外面的this，它会自动捕获
+            dragBox.on("mousemove", function () {
+                console.log("开始拖拽", this)
+                this.style.background = "red"
+            })
+            dragBox.on("dragEnd", function () {
+                console.log("结束拖拽", this)
+                this.style.background = "pink"
+            })
+        })()
+        var str="世界城广场 天涯海角"
+        var strs=`abc def ghi
+        123 456 789
+        asd fgh jkl
+        `
+        console.log(10000,'')
+        var c=strs.trim().split('\n').map(v => {return v.trim().split(' ')})
+        console.log(c)
+    </script>
+</body>
+
+</html>

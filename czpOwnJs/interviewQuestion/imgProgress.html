@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        body{
+            padding: 48px;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .out-box {
+         height: 20px;
+        background: #f3f6f9;
+        }
+        .out-box .progress{
+            width:0;
+            height:100%;
+            background-color: red;
+            border-radius: 3px;
+            transition: width linear 0.05s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="out-box">
+      <div class="progress"></div>
+    </div>
+    <script>
+    var progress=document.querySelector('.progress'); 
+    var width=0;
+    var inter=setInterval(() => {
+        if(width>=100){
+            clearInterval(inter)
+        }else {
+            width+=1;
+            progress.style.width=width+'%';
+        }
+       
+    },30)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+      html,body{
+          height: 100%;
+      }
+      .list{
+          width: 100%;
+          position: absolute;
+          border: 1px solid red;
+      }
+      .container{
+       /*    //width: 50%; */
+          height: 100%;
+          overflow:auto;
+          position: relative;
+      }
+      li{
+          border: 1px solid red;
+          height: 31px;
+          background: pink;
+          text-align: center;
+      }
+     /*  ::-webkit-scrollbar{
+          width: 16px;
+          color: #f3f6f9;
+      } */
+    </style>
+</head>
+<body>
+      <div class="container">
+          <ul class="list"></ul>
+          <div class="scroll-height-box"></div>
+      </div>
+    <script>
+     var eleH=31;
+     var count=50000;
+     var box=document.querySelector('.out-box');
+     var container=document.querySelector('.container');
+     var list=document.querySelector('.list');
+     var heightBox=document.querySelector('.scroll-height-box');
+     //一定要总结一下元素绑定scroll的具体用法,就是因为absolute的元素没有一个与之相对应的父元素，导致其
+     //相对于window，从而使得滚动条乱位，不会触发对应的scroll事件
+     window.onload=function(e){
+        var visibleHeight=document.documentElement.clientHeight;
+        var visibleCount=Math.floor(visibleHeight/eleH);
+        list.style.height=visibleHeight+'px';
+        heightBox.style.height=eleH*count+'px';
+        list.innerHTML=renderNode(0,visibleCount);
+        container.addEventListener('scroll',() => {
+          list.style.transform=`translateY(${container.scrollTop-container.scrollTop%eleH}px)`
+          //`translate3d(0,${container.scrollTop-container.scrollTop%eleH}px,0)`;
+          list.innerHTML='';
+          var startIndex=Math.floor(container.scrollTop/eleH);
+          list.innerHTML=renderNode(startIndex,startIndex+visibleCount);
+        })
+     }
+   
+     function renderNode(startIndex,stopIndex){
+         var ele='';
+          for(var i=startIndex;i<=stopIndex;i++){
+           ele+=`<li>${i}</li>`
+          }
+          console.log(ele)
+          return ele
+     }
+    </script>
+</body>
+</html>

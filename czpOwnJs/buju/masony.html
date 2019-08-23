@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>瀑布流</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .masony-box {
+            height: 100%;
+            padding: 5px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .box {
+            width: 230px;
+            float: left;
+            box-sizing: border-box;
+            padding: 5px;
+            border: 1px solid #f3f6f9;
+        }
+
+        .box img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="masony-box">
+        <div class='box'><img src="../../img/1.jpg" alt=""></div>
+        <div class='box'><img src="../../img/2.jpg" alt=""></div>
+        <div class='box'><img src="../../img/3.jpg" alt=""></div>
+        <div class='box'><img src="../../img/4.jpg" alt=""></div>
+        <div class='box'><img src="../../img/5.jpg" alt=""></div>
+        <div class='box'><img src="../../img/6.jpg" alt=""></div>
+        <div class='box'><img src="../../img/1.jpg" alt=""></div>
+        <div class='box'><img src="../../img/2.jpg" alt=""></div>
+        <div class='box'><img src="../../img/3.jpg" alt=""></div>
+        <div class='box'><img src="../../img/4.jpg" alt=""></div>
+        <div class='box'><img src="../../img/5.jpg" alt=""></div>
+        <div class='box'><img src="../../img/6.jpg" alt=""></div>
+        <div class='box'><img src="../../img/1.jpg" alt=""></div>
+        <div class='box'><img src="../../img/2.jpg" alt=""></div>
+        <div class='box'><img src="../../img/3.jpg" alt=""></div>
+        <div class='box'><img src="../../img/4.jpg" alt=""></div>
+        <div class='box'><img src="../../img/5.jpg" alt=""></div>
+        <div class='box'><img src="../../img/6.jpg" alt=""></div>
+        <div class='box'><img src="../../img/1.jpg" alt=""></div>
+        <div class='box'><img src="../../img/2.jpg" alt=""></div>
+        <div class='box'><img src="../../img/3.jpg" alt=""></div>
+        <div class='box'><img src="../../img/4.jpg" alt=""></div>
+        <div class='box'><img src="../../img/5.jpg" alt=""></div>
+        <div class='box'><img src="../../img/6.jpg" alt=""></div>
+    </div>
+    <script>
+        var heightArr = [], width = 0;
+        var parent = document.querySelector('.masony-box')
+        window.addEventListener('load', () => {
+            initPage()
+        });
+        window.addEventListener('resize', () => {
+            initPage()
+        })
+        initPage = () => {
+            imgLocation('box')
+        }
+        imgLocation = (tag) => {
+            var element = document.getElementsByClassName(tag);
+            console.log(element)
+            width = element[0].offsetWidth;
+            var ColumnCount = Math.floor(document.documentElement.clientWidth / width);
+            parent.style.width = width * ColumnCount + 'px';
+            heightArr = [];
+            for (var i = 0; i < element.length; i++) {
+                if (i < ColumnCount) {
+                    heightArr.push(element[i].offsetHeight);
+                    element[i].style.position = 'static'
+                } else {
+                    var minHeight = Math.min(...heightArr);
+                    var index = heightArr.findIndex(v => v == minHeight);
+                    element[i].style.position = 'absolute';
+                    element[i].style.left = index * width + 'px';
+                    element[i].style.top = minHeight + 'px';
+                    heightArr[index] = minHeight + element[i].offsetHeight;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

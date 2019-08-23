@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/video.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="player-box">
+        <p class="text">视频播放</p>
+        <div class="player">
+            <video
+                src="https://vd3.bdstatic.com/mda-hmr0m89s8xt2cpi9/sc/mda-hmr0m89s8xt2cpi9.mp4?auth_key=1561959955-0-0-9f75f33e02ed460929f2c25dc76c1e6f&bcevod_channel=searchbox_feed&pd=bjh&abtest=all"></video>
+        </div>
+        <div class="bottom-control">
+           <div class="play-control">
+               <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1561961682&di=09c1510cc3a426bff93018f64c465fa2&src=http://pic198.nipic.com/file/20181221/26544633_171506417034_2.jpg" alt="">
+           </div>
+            <div class="progress">
+                <div class="process-control">
+                <div class="line"></div>
+                <div class="loaded"></div>
+                </div>
+            </div>
+            <span class="past">00:00:00</span>
+            <span class="quit">/</span>
+            <span class="total">00:00:00</span>
+            <div class="full-screen">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+    var video=document.querySelector('video');
+    var playControl=document.querySelector('.play-control')
+    var loaded=document.querySelector('.loaded')
+    var past=document.querySelector('.past');
+    var total=document.querySelector('.total')
+    var timeControl=document.querySelector('.process-control')
+    var fullScreen=document.querySelector('.full-screen')
+    video.oncanplay=function(){
+        total.innerHTML=transTime(this.duration)
+    }
+    video.ontimeupdate=function(){
+        var loadTime=this.currentTime;
+        loaded.style.width=loadTime/this.duration*100+'%';
+        past.innerHTML=transTime(this.currentTime)
+        if(this.ended){
+            this.currentTime=0;
+            past.innerHTML="00:00:00";
+            /* this.pause(); */
+            this.play()
+            loaded.style.width=0;
+        }
+    }
+    function transTime(time){
+      var hour=parseInt(time/3600);
+      var minute=parseInt(time%3600/60);
+      var second=parseInt(time%60);
+      hour=hour>9?hour:'0'+hour;
+      minute=minute>9?minute:'0'+minute;
+      second=second>9?second:'0'+second;
+      return hour+':'+minute+':'+second
+
+    }
+    playControl.onclick=function(){
+        if(video.paused){
+            video.play()
+        }else {
+            video.pause()
+        }
+    }
+    timeControl.onclick=function(e){
+        event=e||window.event;
+        video.currentTime=event.offsetX/this.offsetWidth*(video.duration);
+
+    }
+    fullScreen.onclick=function(){
+        video.requestFullscreen()
+
+    }
+    /* video.ended=function(){
+        console.log(1000)
+    } */
+    </script>
+</body>
+
+</html>

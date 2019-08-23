@@ -1,0 +1,296 @@
+<html>
+
+<head>
+    <title>瀑布流组件开发</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            position: relative;
+        }
+
+        .box {
+            float: left;
+            padding: 5px;
+        }
+
+        .box-img {
+            padding: 5px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 5px #ccc;
+            border-radius: 5px;
+        }
+
+        .box-img img {
+            width: 230px;
+            height: auto;
+        }
+
+        .back-top {
+            position: fixed;
+            width: 40px;
+            border-radius: 50%;
+            background: #ffaa00;
+            height: 0;
+            right: 0px;
+            bottom: 30px;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='container'>
+        <div class="back-top"></div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/1.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/2.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/3.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/4.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/6.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/7.jpg">
+            </div>
+        </div>
+        <div class='box'>
+            <div class='box-img'>
+                <img src="./img/5.jpg">
+            </div>
+        </div>
+    </div>
+    <script>
+        const imgData = [{
+            src: '1.jpg'
+        }, {
+            src: '2.jpg'
+        }, {
+            src: '3.jpg'
+        }, {
+            src: '4.jpg'
+        }, {
+            src: '5.jpg'
+        }, {
+            src: '6.jpg'
+        }, {
+            src: '7.jpg'
+        },{
+            src: '1.jpg'
+        }, {
+            src: '2.jpg'
+        }, {
+            src: '3.jpg'
+        }, {
+            src: '4.jpg'
+        }, {
+            src: '5.jpg'
+        }, {
+            src: '6.jpg'
+        }, {
+            src: '7.jpg'
+        },{
+            src: '1.jpg'
+        }, {
+            src: '2.jpg'
+        }, {
+            src: '3.jpg'
+        }, {
+            src: '4.jpg'
+        }, {
+            src: '5.jpg'
+        }, {
+            src: '6.jpg'
+        }, {
+            src: '7.jpg'
+        },{
+            src: '1.jpg'
+        }, {
+            src: '2.jpg'
+        }, {
+            src: '3.jpg'
+        }, {
+            src: '4.jpg'
+        }, {
+            src: '5.jpg'
+        }, {
+            src: '6.jpg'
+        }, {
+            src: '7.jpg'
+        }, ]
+        const oParent = document.getElementById('container');
+        const scrollDiv = document.querySelector('.back-top');
+        window.addEventListener('load', () => {
+            imgLocation('box');
+        })
+        window.addEventListener('resize', () => {
+            imgLocation('box')
+        })
+        window.addEventListener('scroll', () => {
+                checkLoading('box');
+            })
+        scrollDiv.onclick = () => {
+            document.body.scrollTop = 0;
+        }
+        imgLocation = (child) => {
+            let heightArr = [];
+            const aContent = getChilds(child);
+            const imgWidth = aContent[0].offsetWidth;
+            const count = Math.floor(document.documentElement.clientWidth / imgWidth);
+            oParent.style.cssText = 'width:' + imgWidth * count + 'px;margin:0 auto';
+            console.log(count)
+            for (let i = 0; i < aContent.length; i++) {
+                if (i < count) {
+                    heightArr.push(aContent[i].offsetHeight)
+                    aContent[i].style.position = 'static'
+                } else {
+                    const minHeight = Math.min(...heightArr);
+                    const index = getMinheightIndex(heightArr, minHeight);
+                    aContent[i].style.position = 'absolute';
+                    aContent[i].style.top = minHeight + 'px';
+                    aContent[i].style.left = index * imgWidth + 'px';
+                    heightArr[index] = heightArr[index] + aContent[i].offsetHeight;
+                }
+            }
+            console.log(heightArr)
+        }
+        getChilds = (child) => {
+            const allTags = oParent.getElementsByTagName('*');
+            const targetTag = [].filter.call(allTags, v => v.className == 'box')
+            return targetTag
+
+        }
+        getMinheightIndex = (arr, minHeight) => {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] == minHeight) {
+                    return i
+                }
+            }
+        }
+        checkLoading = (child) => {
+            const aContent = getChilds(child);
+            const lastTop = aContent[aContent.length - 1].offsetTop;
+            const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            const aheight = document.documentElement.clientHeight;
+            console.log(scrollTop)
+            if (scrollTop > 600) {
+
+                scrollDiv.style.height = '40px';
+            } else {
+                scrollDiv.style.height = 0;
+            }
+            if (scrollTop + aheight > lastTop) {
+                imgData.map(v => {
+                    const oDiv = document.createElement('div');
+                    oDiv.className = 'box';
+                    oParent.appendChild(oDiv);
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'box-img';
+                    oDiv.appendChild(imgDiv);
+                    const oImg = new Image();
+                    oImg.src = './img/' + v.src;
+                    imgDiv.appendChild(oImg);
+                })
+                imgLocation('box')
+            }
+        }
+    </script>
+</body>
+
+</html>

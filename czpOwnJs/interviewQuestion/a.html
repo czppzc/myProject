@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    .top-menu{
+     width: 100px;
+     height: 40px;
+     line-height: 40px;
+     font-size: 16px;
+     color:#f3f6f9;
+     background: #151616;
+     position: relative;
+     text-align: center;
+     cursor: pointer;
+    }
+   /*  .top-menu:hover{
+        background: #f3f6f9;
+        color: #151616;
+    } */
+    .top-menu .trangle{
+        position: absolute;
+        right: 5px;
+        top:21px;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-top-color: #494a4b;
+        border-bottom-color: transparent;
+    }
+    .top-menu .antrangle{
+        position: absolute;
+        right: 5px;
+        top:14px;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-bottom-color: #494a4b;
+        border-top-color: transparent;
+    }
+    .content{
+        width: 100px;
+        background: #5d7777
+    }
+    ul{
+        height: 100%;
+        display: none;
+        transition: display linear;
+    }
+    li{
+        list-style: none;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        cursor: pointer;
+    }
+    li:hover{
+        background: #494a4b;
+    }
+    </style>
+</head>
+<body>
+    <div class="out-box">
+     <div class="top-menu">客户服务
+         <div id="scroll" class="trangle"></div>
+     </div>
+     <div class="content">
+         <ul class="innerContent">
+             <li class="cont">客户选择</li>
+             <li class="cont">科幻巨作</li>
+             <li class="cont">客户处理</li>
+         </ul>
+     </div>
+    </div>
+    <script>
+    var topMenu=document.querySelector('.top-menu');
+    var trangle=document.getElementById('scroll');
+    var content=document.querySelector('.innerContent');
+    topMenu.onmouseover=function(){
+        topMenu.style.background='#f3f6f9';
+        topMenu.style.color='#151616';
+        trangle.className="antrangle";
+        content.style.display='block';
+    }
+    document.onmousemove=function(e){
+        var name=e.target.className;
+        if(name!='content'&&name!="innerContent"&&name!="cont"&&name!='top-menu'){
+        topMenu.style.background='#151616';
+        topMenu.style.color='#f3f6f9';
+        trangle.className="trangle";
+        content.style.display='none';
+        }
+    }
+    </script>
+</body>
+</html>

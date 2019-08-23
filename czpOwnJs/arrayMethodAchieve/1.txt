@@ -1,0 +1,6 @@
+markJson waffee 80 2
+markJson belender 200 1
+markJson knife 10 4
+Nikita waffle 80 1
+Nikita knife 10 2
+Nikita pot 20 3

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="test">
+    <p id="span"></p>
+    <script>
+        var data = {
+            text: 'input中的内容'
+        }
+        Object.defineProperty(data, 'text', {
+            configurable: true,
+            enumerable: true,
+            get() {
+                return data.text
+            },
+            set(newVal) {
+                document.getElementById('test').value = newVal;
+                document.getElementById('span').innerText = newVal;
+            }
+        })
+        document.getElementById('test').addEventListener('input',(e) => {
+            data.text=e.target.value
+        } )
+        data.text = "测试"
+    </script>
+</body>
+
+</html>

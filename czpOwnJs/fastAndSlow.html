@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>请求快慢问题</title>
+    <style>
+        button {
+            width: 80px;
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">测试</button>
+    <script>
+        var btn = document.getElementById("btn");
+        var list = [];
+        var i = 3;
+        btn.onclick = function () {
+              if (!list.length) {
+                 list.push(fn1);
+                 fn1();
+                 i=i-2;
+             }else {
+               list.push(fn1);
+             } 
+        }
+
+        function fn1(test) {
+            setTimeout(() => {
+                console.log("我先进来就先出去",test);
+                list.shift();
+                if (list.length) list.shift()("我的测试")
+
+            }, i*1000)
+        }
+
+        function fn2() {
+            setTimeout(() => {
+                console.log("我后进来的，后出去");
+                list.shift();
+                if (list.length) list.shift()()
+            }, 1000)
+        }
+    </script>
+</body>
+
+</html>

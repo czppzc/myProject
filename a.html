@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <style>
+        #outdiv {
+            width: 40px;
+            height: 40px;
+            background: #f3f6f9;
+        }
+
+        .box {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            font-size: 0;
+            /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+            line-height: 0;
+            /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+            border-width: 10px;
+            border-style: solid;
+            /*ie6下会出现不透明的兼容问题*/
+            border-color: #f30 transparent transparent transparent;
+        }
+        p{
+           font-size: 12px;
+           transform: scale(0.8,0.8)
+        }
+    </style>
+</head>
+
+<body>
+   <p>测试一下最小的字体</p>
+    <script>
+        class A{
+            a=100;
+        }
+        console.log(new A)
+        /* function Parent(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Parent.prototype.test1 = function () {
+            console.log(1)
+        }
+        function Parent1(type, name, age) {
+            Parent.call(this, name, age)
+            this.type = type;
+        }
+        Parent1.prototype = Object.create(Parent.prototype);
+        Parent1.prototype.test2 = function () {
+            console.log(2)
+        } */      
+    </script>
+    <!--   <script>
+            var oDiv=document.getElementById('outdiv');
+            oDiv.onmouseover=function(){
+                this.style.background="red"
+            }
+         </script> -->
+    <!-- <script>
+        function ajax(url, callback) {
+            let xhr;
+            console.log(callback);
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest;
+            } else {
+                xhr = ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.onreadystatechange = function() {
+                if (xhr.readystate === 4 && xhr.status === 200) {
+                    callback(xhr.responsetext)
+                }
+            }
+            xhr.open('get', url, true);
+            xhr.send();
+        }
+        ajax('http://localhost:8888/', (res) => {
+            console.log(res)
+        })
+    </script> -->
+
+
+</body>
+
+</html>

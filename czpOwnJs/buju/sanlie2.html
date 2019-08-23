@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+    body{
+    width: 100vw;
+    height: 100vh;
+    }
+    body > div{
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .left,.right,.main{
+        position: absolute;
+        height: 100%;
+    }
+    .left{
+        left: 0;
+        width: 300px;
+        background: red;
+    }
+    .right{
+        right: 0;
+        width: 300px;
+        background: blue;
+    }
+    .main{
+        background: pink;
+        width: calc(100% - 600px);
+        left: 300px;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="left"></div>
+        <div class='main'></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        #btn {
+            margin-left: 16px;
+        }
+
+        .out-box {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="out-box">
+        <input type="text">
+        <button id="btn">倒计时</button>
+    </div>
+    <script>
+        var btn = document.getElementById('btn');
+        var oInput = document.getElementsByTagName('input')[0];
+        btn.onclick = function () {
+            var box = document.getElementsByClassName('text-ele')[0];
+            if (!!box) {
+                document.body.removeChild(box);
+
+            }
+            var value = oInput.value;
+            var div = document.createElement('div');
+            div.className = "text-ele";
+            document.body.appendChild(div);
+            handleInput(value, div)
+            //div.innerHTML=`倒计时开始：还剩${value}天${value}时${value}分${value}秒`;
+        }
+
+        function handleInput(value, ele) {
+            var dateStr = new Date(value).getTime();
+            setInterval(() => {
+                var newDateStr = new Date().getTime();
+                var remain = dateStr - newDateStr;
+                if(remain<=0){
+                    ele.innerHTML="倒计时结束"
+                    return
+                }
+                var day = Math.floor(remain / (1000 * 3600 * 24))
+                var remainDay = remain % (1000 * 3600 * 24);
+                var hour = Math.floor(remainDay / (1000 * 3600));
+                var remainHour = remainDay % (1000 * 3600);
+                var minutes = Math.floor(remainHour / (1000 * 60))
+                var minutesRemain = remainHour % (1000 * 60);
+                var hours=hour>9?hour:("0"+hour);
+                var minute=minutes>9?minutes:("0"+minutes);
+                var seconds=minutesRemain;
+                ele.innerText =`倒计时开始：还剩${day}天${hours}时${minute}分${seconds}秒`
+            }, 1000)
+
+
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #out-div {
+            width: 200px;
+            height: 50px;
+            background: #d5d5d6;
+            padding: 4px 8px;
+            box-sizing: border-box;
+        }
+
+        #scroll-ele {
+            width: 40px;
+            height: 100%;
+            background: red;
+            position: absolute;
+            left: 0;
+        }
+
+        #long-box {
+            width: 100%;
+            height: 100%;
+            background: #aca9a9;
+            position: relative;
+            text-align: right;
+        }
+        #validate-box{
+            width: 40px;
+            height: 100%;
+            display: inline-block;
+            background: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="out-div">
+        <div id="long-box">
+            <div id="scroll-ele"></div>
+            <div id="validate-box"></div>
+        </div>
+    </div>
+    <script>
+        var scrollEle = document.getElementById('scroll-ele');
+        var longBox = document.getElementById("long-box");
+        var targetEle=document.getElementById('validate-box');
+        var longLeft = longBox.offsetLeft;
+        var targetLeft=targetEle.offsetLeft+longLeft;
+        scrollEle.onmousedown = function (e) {
+            var eleWidth=e.clientX - longLeft;
+           // console.log(e.clientX,longLeft)
+            var right=40-eleWidth;
+            //console.log(eleWidth,right,"测试")
+            document.onmousemove = function (e) {
+                    if (e.target.id == "scroll-ele") {
+                        var sameLeft=e.clientX-targetLeft;
+                    // console.log(sameLeft,"测试")
+                        if(sameLeft>=0&&(sameLeft+right)>37){
+                            alert("验证成功了")
+                        }
+                        var dis = e.clientX - longLeft;
+                        if (dis >= eleWidth && dis < 144+eleWidth) {
+                            scrollEle.style.left = dis-eleWidth + 'px';
+                        }
+                    } else {
+                        document.onmousemove = null;
+                        scrollEle.style.left = 0;
+                    }
+            }
+            scrollEle.onmouseup = function (e) {
+                this.style.left = 0;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+
+</html>

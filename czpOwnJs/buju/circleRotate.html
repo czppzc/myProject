@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        margin:0;
+        padding: 0;
+    }
+    body{
+        width: 100vw;
+        height: 100vh;
+    }
+    .out-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .out-box .rotate-box{
+        width: 600px;
+        height: 600px;
+        background: url('../../img/Oval_2.svg') center center no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: rotate1 50s linear infinite;
+    }
+    .out-box .login-box{
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: url('../../img/Oval_1.svg') center center no-repeat;
+      animation: rotate2 50s linear infinite;
+    }
+    @keyframes rotate1{
+        0% {transform: rotate(0deg)}
+        50% {transform: rotate(180deg)}
+        100% {transform: rotate(0deg)}
+    }
+    @keyframes rotate2{
+        0% {transform: rotate(0deg)}
+        50% {transform: rotate(-180deg)}
+        100% {transform: rotate(0deg)}
+    }
+    </style>
+</head>
+<body>
+    <div class="out-box">
+        <div class="rotate-box"> </div>
+        <div class="login-box"></div>
+
+    </div>
+</body>
+</html>

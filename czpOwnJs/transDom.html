@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <span>
+            <a></a>
+        </span>
+        <span>
+            <a></a>
+            <a></a>
+        </span>
+        <p>
+            <a href=""></a>
+        </p>
+    </div>
+    <script>
+        //类似dom树转换成虚拟dom      React.createElement()
+        var element=document.getElementsByTagName('div')[0];
+        function transNode(node){
+            console.log(node)
+            let treeNode={};
+            treeNode.tag=node.nodeName;
+            console.log(node.chidren)
+            treeNode.children=[].map.call(node.children,v => transNode(v))
+            return treeNode
+        }
+        console.log(transNode(element))
+        var a = {
+            tag: 'DIV',
+            children: [{
+                    tag: 'SPAN',
+                    children: [{
+                        tag: 'A',
+                        children: []
+                    }]
+                },
+                {
+                    tag: 'SPAN',
+                    children: [{
+                            tag: 'A',
+                            children: []
+                        },
+                        {
+                            tag: 'A',
+                            children: []
+                        }
+                    ]
+                }
+            ]
+        }
+    </script>
+</body>
+</html>

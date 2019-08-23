@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+      html,body{
+          height: 100%;
+      }
+      .list{
+          width: 100%;
+          position: absolute;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+      }
+      .container{
+       /*    //width: 50%; */
+          height: 100%;
+          overflow:auto;
+          position: relative;
+      }
+      li{
+          border: 1px solid red;
+          height: 31px;
+          background: pink;
+          text-align: center;
+      }
+      .test-box{
+          width: 200px;
+          height: 150px;
+          border: 1px solid #ffaa00;
+          margin-right: 16px;
+          margin-bottom: 16px;
+          text-align: center;
+          line-height: 150px;
+      /*    // float: left; */
+      }
+      .back-top{
+          width: 40px;
+          height: 40px;
+          position: fixed;
+          right: 40px;
+          bottom: 40px;
+          background: #ffaa00;
+          border-radius: 50%;
+          visibility: hidden;
+          cursor: pointer;
+
+      }
+     /*  ::-webkit-scrollbar{
+          width: 16px;
+          color: #f3f6f9;
+      } */
+    </style>
+</head>
+<body>
+      <div class="container">
+          <div class="list"></div>
+          <div class="scroll-height-box"></div>
+          <div class="back-top"></div>
+      </div>
+    <script>
+     var array=[];
+     var eleH=150;
+     var eleW=200;
+     var count=1250;
+     for(var i=0;i<10000;i++){
+        array[i]=i
+     }
+     var box=document.querySelector('.out-box');
+     var container=document.querySelector('.container');
+     var list=document.querySelector('.list');
+     var heightBox=document.querySelector('.scroll-height-box');
+     var backBtn=document.querySelector('.back-top');
+     backBtn.onclick=function(){
+        container.scrollTop=0;
+     }
+     //一定要总结一下元素绑定scroll的具体用法,就是因为absolute的元素没有一个与之相对应的父元素，导致其
+     //相对于window，从而使得滚动条乱位，不会触发对应的scroll事件
+     window.onload=function(e){
+         console.log(container.offsetHeight,"测试")
+        var visibleHeight=document.documentElement.clientHeight;
+        var visibleCount=Math.floor(visibleHeight/eleH);
+        var rowCount=Math.floor(document.documentElement.clientWidth/(eleW+16));
+        //console.log(rowCount,"1112344")
+        list.style.height=visibleHeight+'px';
+        heightBox.style.height=(eleH)*count+'px';
+        list.innerHTML=renderNode(0,visibleCount*rowCount+7);
+        container.addEventListener('scroll',() => {
+          if(container.scrollTop>1200){
+             backBtn.style.visibility='visible';
+          }else {
+            backBtn.style.visibility='hidden'; 
+          }
+          list.style.transform=`translateY(${container.scrollTop-container.scrollTop%eleH}px)`
+          //`translate3d(0,${container.scrollTop-container.scrollTop%eleH}px,0)`;
+          var startIndex=Math.floor(container.scrollTop/eleH);
+          /* if(startIndex*rowCount>array.length-54){
+              return
+          } */
+          list.innerHTML='';
+          //console.log(startIndex,"测试")
+          list.innerHTML=renderNode(startIndex*rowCount,startIndex*rowCount+visibleCount*rowCount+7);
+        })
+     }
+   
+     function renderNode(startIndex,stopIndex){
+         console.log(startIndex,stopIndex)
+         var ele='';
+          for(var i=startIndex;i<=stopIndex;i++){
+           ele+=`<div class="test-box">${array[i]}</div>`
+          }
+          return ele
+     }
+    </script>
+</body>
+</html>

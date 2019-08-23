@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    html,body{
+        height: 100%;
+    }
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .login-box{
+        width: 400px;
+     /*    height: 300px; */
+        /* border: 1px solid red; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:translate(-50%,-50%)
+    }
+    .input-box{
+        text-align: center;
+        padding: 6px;
+    }
+    .input-box input{
+        height: 28px;
+    }
+    .btn{
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="">
+     <form action="post">
+         <div class="input-box"><input type="text" name='username' placeholder='请输入用户名'></div>
+         
+         <div class="input-box"><input type="password" name="password" placeholder="请输入密码"></div>
+         <div class="btn"><input type="submit" value="登录" ></div>
+     </form>
+    </div>
+    </div>
+</body>
+</html>

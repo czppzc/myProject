@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- 视口设置 -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .box div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin-left: 8px;
+            margin-top: 8px;
+        }
+
+        #zhanwei {
+            width: 100px;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div id="zhanwei"></div>
+        <div id="zhanwei"></div>
+    </div>
+    <script>
+        var num = 1,
+            cont = 0;
+        /* for (var i = 0; i < linesNum; i++) {
+            strsArr.push(readline())
+        } */
+        var strsArr=["www","oooo"]
+        for (j = 0; j < strsArr.length; j++) {
+            strsArr[j] = filterStr(strsArr[j])
+        }
+
+        function filterStr(str) {
+            var reStr = str;
+            for (var i = 0; i < str.length; i++) {
+                while (str[i + 1] && str[i + 1] == str[i]) {
+                    num++;
+                    if (num >= 3) {
+                        reStr = reStr.replace(str[i + 1], "");
+                        num--
+                    }
+                    i++;
+                }
+            }
+            return reStr
+        }
+        var linesNum=readline();
+var strsArr=[];
+var num=1,cont=0;
+for(var i=0;i<linesNum;i++){
+    strsArr.push(readline())
+}
+for(j=0;j<strsArr.length;j++){
+    strsArr[j]=filterStr(strsArr[j]);
+    num=1;
+}
+function filterStr(str){
+    var reStr=str.split('');
+    for(var i=0;i<str.length;i++){
+        if(cont>0&&str[i+1]!=str[i]){
+            cont=0;
+        }
+        while(str[i+1]&&str[i+1]==str[i]){
+            num++;
+             if(num>=3){
+                 reStr=reStr.replace(str[i+1],"");
+                 num--
+            }
+            i++;
+        }
+        if(num==2){
+            cont++
+            if(cont>=2){
+                reStr=reStr.replace(str[i],""); 
+                cont=0
+            }
+        }
+        num=1;
+    }
+    return reStr
+}
+for(var i=0;i<strsArr.length;i++){
+print(strsArr[i])
+}
+    </script>
+</body>
+
+</html>

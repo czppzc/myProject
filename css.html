@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /*  .parent{
+        border: 1px solid red;
+    }
+    .child{
+        display: table;
+        margin:0 auto;
+        border: 1px solid blue;
+    } */
+        /*   .parent{
+        border: 1px solid red;
+        text-align: center;
+    }
+    .child{
+        display: inline-block;
+        border: 1px solid blue;
+    } */
+        .parent {
+            border: 1px solid red;
+            position: relative
+        }
+
+        .child {
+            position: absolute;
+            border: 1px solid blue;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var scripts = document.createElement("script");
+        scripts.src = "02.js"
+        document.body.appendChild(scripts);
+       // document.body.innerHTML =1;
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            padding: 36px;
+        }
+         /*利用border的特性来实现进度条*/
+        .progress {
+            height: 20px;
+            width: 0;
+            border-left-width: 180px;
+            border-left-color: red;
+            border-left-style: solid;
+            border-right-width: 20px;
+            border-right-color: #f3f6f9;
+            border-right-style: solid;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress"></div>
+    <script>
+        var progress = document.querySelector('.progress');
+        var width = 0;
+        var inter = setInterval(() => {
+            if (width >= 200) {
+                clearInterval(inter)
+            } else {
+                width++;
+                progress.style.borderLeftWidth = width + 'px';
+                progress.style.borderRightWidth = (200 - width) + 'px'
+
+            }
+        }, 20)
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+    .square-box{
+     width: 400px;
+     height: 400px;
+     transform-style: preserve-3d;
+     transform: rotateY(40deg) rotateX(50deg);
+     position: relative;
+    }
+    .square{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+       /* left: 300px;
+       top:300px; */
+    }
+    .one{
+        transform: rotateX(90deg) translateZ(100px);
+        background: pink;
+    }
+    .two{
+        transform: rotateX(90deg) translateZ(-100px);
+        background: rgb(212, 13, 46);
+    }
+    .three{
+        transform: rotateY(90deg) translateZ(100px);
+        background: rgb(55, 47, 163);
+    }
+    .four{
+        transform: rotateY(90deg) translateZ(-100px);
+        background: rgb(173, 167, 168);
+    }
+    .five{
+        transform:  translateZ(100px);
+        background: rgb(173, 33, 173);
+    }
+    .six{
+        transform: translateZ(-100px);
+        background: rgb(209, 86, 15);
+    }
+    </style>
+</head>
+<body>
+    <div class="square-box">
+        <div class="square one"></div>
+        <div class="square two"></div>
+        <div class="square three"></div>
+        <div class="square four"></div>
+        <div class="square five"></div>
+        <div class="square six"></div>
+    </div>
+    <script>
+    Function.prototype.method=function (name,fn) {
+    this.prototype[name] = fn;
+    return this;
+};
+function lianFun() {};
+lianFun.onready = function (fn) {
+    //在这个地方把prototype挂到了__proto__上，再通过window把它变成全局变量，方便后面调用
+    window.$ = function () {
+        return new lianFun(arguments);
+    };
+    fn();
+};
+
+lianFun.method("click",function (fn) {
+    fn();
+}).method("change",function (fn) {
+    fn();
+}).method("load",function (fn) {
+    fn();
+});
+console.log(lianFun.prototype)
+//使用
+lianFun.onready(function () {
+    $().change(function () {
+        console.log("改变了");
+    })
+    $().click(function () {
+        console.log("点击了");
+    })
+});
+    </script>
+</body>
+</html>

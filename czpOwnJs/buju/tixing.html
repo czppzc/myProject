@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* div{
+        margin: 0 auto;
+        width: 0;
+        height: 0;
+        border-width: 40px 40px 40px 0;
+        border-style:solid;
+        border-color:transparent red blue yellow;
+        transform: rotate(90deg)
+    } */
+        div {
+            margin: 280px auto;
+            width: 0;
+            height: 0;
+            border-width: 0 80px 80px 80px;
+            border-style: solid;
+            border-color: transparent transparent rgb(40, 189, 60) rgb(40, 189, 60);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+    </div>
+    <script>
+        /* var f=function(){
+    
+        }
+        Function.prototype.getName=function(){
+            console.log('function')
+        }
+        var person=function(){
+    
+        }
+        person.prototype.getName=function(){
+            console.log('person')
+        }
+        f.getName();
+        person.getName()
+        function Test(){
+            this.getName=function(){
+    
+            }
+        }
+        var a=new Test();
+        var b=new Test();
+        console.log(a.getName===b.getName) */
+        var PENDING = 'pending';
+        var RESOLVED = 'fulfilled';
+        var REJECTED = 'rejected';
+        function MyPromise(fn) {
+            this.state = PENDING;
+            this.resolveCallBack = [];
+            this.rejectCallBack = [];
+            this.val = null;
+            this.err = null;
+            var that = this;
+            var resolve = function (val) {
+                if (that.state === PENDING) {
+                    that.state = RESOLVED;
+                    that.val = val;
+                    that.resolveCallBack.length && that.resolveCallBack.forEach(callback => {
+                        callback(val)
+                    });
+                }
+            }
+            var reject = function (err) {
+                if (that.state === PENDING) {
+                    that.state = RESOLVED;
+                    that.err = err;
+                    that.rejectCallBack.length && that.rejectCallBack.forEach(callback => {
+                        callback(val)
+                    });
+                }
+            }
+            try {
+                fn(resolve, reject)
+            } catch (e) {
+                throw e
+            }
+        }
+        MyPromise.prototype.then = function (resolveFn, rejectFn) {
+            var that = this;
+            var resolveFn = typeof resolveFn === 'function' ? resolveFn : v => v;
+            var rejectFn = typeof rejectFn === 'function' ? rejectFn : err => { throw err };
+            var collectFn = function (resolveFn, rejectFn) {
+                if (that.state === PENDING) {
+                    that.resolveCallBack.push(resolveFn);
+                    that.rejectCallBack.push(rejectFn)
+                } else if (that.state === RESOLVED) {
+                    resolveFn(that.val)
+                } else {
+                    rejectFn(that.err)
+                }
+            }
+            return new MyPromise((resolve, reject) => {
+                //对成功回调和失败回调函数做一层封装，从而保证在上一个then函数没有
+                //执行完毕的话下一个then里面的函数不会被执行
+                collectFn(val => {
+                    resolve(resolveFn(val))
+                }, err => {
+                    reejct(rejectFn(err))
+                })
+            })
+        }
+        Function.prototype.reoslve=function(para){
+         return new MyPromise((resolve) => {
+             resolve(para)
+         })
+        }
+    </script>
+</body>
+
+</html>

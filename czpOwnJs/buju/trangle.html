@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .trangle{
+        margin: 280px auto;
+        width: 0;
+        height: 0;
+        border-width: 40px;
+        border-style: solid;
+        border-color: aqua red blue yellow;
+    }
+    </style>
+</head>
+<body>
+    <div class="trangle">
+    </div>
+    <script>
+    var trangle=document.querySelector('.trangle');
+    Function.prototype.mybind=function(thisArg,...arg1){
+    var taht=this;
+    var func=function(...arg2){
+        var thisReal=this instanceof func ?this:thisArg;
+        return that.apply(thisReal,arg1.concat(arg2))
+    }
+    func.prototype=Object.create(that.prototype);
+    func.prototype.constructor=that;
+    return func
+    }
+    function throttle(fn,time){
+        var timer=null,startTime=0;
+        time=time||500;
+        return function(...arg){
+            var endTime=new Date().getTime();
+            if(timer){
+                clearTimeout(timer)
+            }
+            if(endTime-startTime>time){
+                fn.apply(this,arg);
+                startTime=endTime;
+            }else {
+                timer=setTimeout(() => {
+                    fn.apply(this,arg)
+                },time)
+            }
+        }
+    }
+    function Debounce(fn,time){
+        var timer=null;
+        return function(...arg){
+            if(timer){
+                clearTimeout(timer)
+            }
+            timer=setTimeout(() => {
+                fn.apply(this,arg)
+            },time)
+        }
+    }
+    var throttleFun=Debounce((err) => {
+     console.log(err)
+    },200)
+    trangle.onclick=function(){
+        throttleFun("天涯海角")
+    }
+    var PENDING='pending';
+    var RESOLVED='fulfilled';
+    var REJECTED='rejected';
+    function MyPromise(fn){
+        this.val=undefined;
+        this.err=undefined;
+        this.resolveCallback=[];
+        this.rejectCallback=[];
+        this.state=PENDING;
+        var that=this;
+        var resolve=function(val){
+            if(that.state===PENDING){
+                that.state=RESOLVED;
+                that.val=val;
+                that.resolveCallback.length&&that.resolveCallback.forEach(callback => {
+                    callback(val)
+                });
+            }
+        }
+        var reject=function(err){
+            if(that.state===PENDING){
+                that.state=REJECTED;
+                that.err=err;
+                that.rejectCallback.length&&that.rejectCallback.forEach(callback => {
+                    callback(err)
+                });
+            }
+        }
+        var getThen=function(value){
+            if(typeof value.then ==="function"||typeof value.then ==='object'){
+                return value.then?value.then:null
+            }
+            return null
+        }
+        var handler=function(fn){
+            fn((val) => {
+            var then=getThen(val);
+            if(then){
+                return handler(then.bind())
+            }
+            resolve(val)
+            },(err) => {
+            var then=getThen(err);
+            if(then){
+            return handler(then.bind())
+            }
+            reject(err)
+            })
+        }
+    }
+    MyPromise.prototype.then=function(onFulfilled,onRejected){
+        var that=this;
+        var collect=function(onFulfilled,onRejected){
+            onFulfilled=typeof onFulfilled ==='function'?onFulfilled:v => v ;
+            onRejected=typeof onRejected ==='function' ? onRejected:err => {throw err};
+             if(that.state===PENDING){
+                 that.resolveCallback.push(onFulfilled);
+                 that.rejectCallback.push(onRejected);
+             }else if(that.state ===RESOLVED){
+                onFulfilled(that.val)
+             }else {
+                 onRejected(that.err)
+             }
+        }
+        return new MyPromise((resolve,reject) => {
+            collect((val) => {
+             if(typeof onFulfilled !=='function'){
+              resolve(val)
+              return
+             }
+             resolve(onFulfilled(val))
+            },(err) => {
+                if(typeof onRejected !=='function'){
+              reject(err)
+              return
+             }
+             reject(onRejected(err))
+            })
+        })
+    }
+    </script>
+</body>
+</html>

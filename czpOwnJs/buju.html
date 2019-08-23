@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .out-box {
+            width: 750px;
+            height: 750px;
+            margin: 0 auto;
+            background: pink;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /*垂直居中： 第一种布局方式*/
+        #center-control {
+            width: 50%;
+            /*  height: 0;
+        padding-bottom: 25%; */
+            /* position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%); */
+            background: red;
+            overflow: hidden;
+        }
+
+        .content:after {
+            content: '';
+            display: block;
+            padding-top: 50%;
+        }
+
+        .ano-box {
+            background: blue;
+        }
+
+        .con:after {
+            display: block;
+            content: '';
+            margin-top: 100px;
+        }
+
+        .con div {
+            margin-top: 30px;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="out-box">
+        <div id="center-control" class="content">
+        </div>
+
+    </div>
+    <div class="ano-box con">
+        <div></div>
+    </div>
+    <script>
+        var i = 0;
+     //使用setTimeout实现setInterval,并且可以控制循环次数
+        function interval(func, w,t) {
+            var interv = function () {
+                if (t > 0) {
+                    setTimeout(interv, w);
+                    func.call(null);
+                    t--
+                }
+            };
+
+            setTimeout(interv, w);
+        };
+
+        function callback() {
+            console.log(i, "测试");
+            i++
+        }
+        interval(callback, 1000,10);
+        var a={name:"小明"};
+        var b=a;
+        b={name:"小芳"}
+        console.log(a.name)
+    </script>
+</body>
+
+</html>

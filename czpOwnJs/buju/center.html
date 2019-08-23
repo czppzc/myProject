@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>元素居中测试</title>
+    <style>
+        body,
+        p {
+            padding: 0;
+            margin: 0
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 300px;
+            height: 100px;
+            border: 1px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box .center {
+            font-size: 16px;
+            border: 1px solid blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="center">
+            <p>我们的天涯海角世界城广场世界城广场</p>
+        </div>
+        <div>
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        /* var PENDING = 'pending';
+        var RESOLVED = 'fulfilled';
+        var REJECTED = 'rejected';
+        function MyPromise(fn) {
+            this.state = PENDING;
+            this.resolveCallback = [];
+            this.rejectCallback = [];
+            this.val = null;
+            this.err = null;
+            var that = this;
+            var resolve = function (val) {
+                if (that.state === PENDING) {
+                    that.state = RESOLVED;
+                    that.val = val;
+                    that.resolveCallback.length && that.resolveCallback.forEach(callback => {
+                        callback(val)
+                    });
+
+                }
+            }
+            var reject = function (err) {
+                if (that.state === PENDING) {
+                    that.state = REJECTED;
+                    that.err = err;
+                    that.rejectCallback.length && that.rejectCallback.forEach(callback => {
+                        callback(err)
+                    });
+                }
+            }
+            try {
+                fn(resolve, reject)
+            }
+            catch (e) {
+                throw e
+            }
+        }
+        MyPromise.prototype.then = function (resolveFn, rejectFn) {
+            var that = this;
+            var resolveFn = typeof resolveFn === 'function' ? resolveFn : v => v;
+            var rejectFn = typeof rejectFn === 'function' ? rejectFn : err => { throw err };
+            var handlerFn = function (resolveFn, rejectFn) {
+                if (that.state === PENDING) {
+                    that.resolveCallback.push(resolveFn);
+                    that.rejectCallback.push(rejectFn);
+                } else if (that.state === RESOLVED) {
+                    resolveFn(that.val)
+                } else {
+                    rejectFn(that.err)
+                }
+            }
+            return new MyPromise((resolve, reject) => {
+                handlerFn(val => {
+                    resolve(resolveFn(val))
+                }, err => {
+                  reject(rejectFn(err))
+                })
+            })
+        }
+        MyPromise.prototype.all=function(arr){
+        let aResult = [];    //用于存放每次执行后返回结果
+        return new MyPromise((resolve, reject) => {
+          let i = 0;
+          next();    //开始逐次执行数组中的函数
+          function next() {
+            arr[i]().then(res => {
+              aResult.push(res);    //执行后返回的结果放入数组中
+              i++;
+              if (i == arr.length) {    //如果函数数组中的函数都执行完，便把结果数组传给then
+                resolve(aResult);
+              } else {
+                next();
+              }
+            })
+          }
+        })
+} */
+        //获取文档中标签最多的几个标签
+        var targetTagList = [];
+        var eleList = document.getElementsByTagName('*');
+        var obj = {}
+        for (var i = 0; i < eleList.length; i++) {
+            if (obj[eleList[i].nodeName]) {
+                obj[eleList[i].nodeName]++
+            } else {
+                obj[eleList[i].nodeName] = 1
+            }
+        }
+        var newArr = Object.keys(obj).map(v => { return { name: v, times: obj[v] } })
+        function getTag(arr, n) {
+            var max = Math.max(...arr.map(v => v.times));
+            var targeTag = arr.filter(v => v.times == max);
+            targetTagList.push(targeTag);
+            if (--n > 0) {
+                arr = arr.filter(v => v.times != max)
+                getTag(arr, n)
+            }
+            return targetTagList
+        }
+        console.log(getTag(newArr, 3))
+        var eleList = document.getElementsByTagName('body')[0];
+        var obj = {};
+        function setArr(ele) {
+            if (obj[ele.nodeName]) {
+                obj[ele.nodeName]++
+            } else {
+                obj[ele.nodeName] = 1
+            }
+            if (ele.children) {
+                [].forEach.call(ele.children, v => {
+                    setArr(v)
+                })
+            }
+            return obj
+        }
+        console.log(setArr(eleList))
+        var arrs = [1, 34, 436, 456, 65, 867, 789, 89, 8, 900, 5, 3534, 5, 46, 5, 675, 87]
+        for (var i = 0; i < arrs.length; i++) {
+            for (var j = 0; j < arrs.length - i; j++) {
+                if (arrs[j] > arrs[j + 1]) {
+                    var temp = arrs[j];
+                    arrs[j] = arrs[j + 1];
+                    arrs[j + 1] = temp
+                }
+            }
+        }
+        console.log(arrs)
+    </script>
+</body>
+
+</html>

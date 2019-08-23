@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file">
+    <script>
+        /*  let upload=document.querySelector('input');
+         upload.onchange=function(e){
+             console.log(e.target.value)
+         } */
+        var obj = [
+            { id: 3, parent: 2 },
+            { id: 1, parent: null },
+            { id: 2, parent: 1 },
+        ]
+        o = {
+  obj: {
+    id: 1,
+    parent: null,
+    child: {
+      id: 2,
+      parent: 1,
+      child: {
+          id: 3,
+          parent: 2
+      }
+    }
+  }
+}
+var element=obj.filter(v => !v.parent)[0];
+function transLate(element,obj){
+    if(!element){
+        return null
+    }
+    var root={};
+    root.id=element.id;
+    root.parent=element.parent;
+    root.child=transLate(obj.filter(v => v.parent==element.id)[0],obj);
+    return root
+
+}
+console.log(transLate(element,obj))
+    </script>
+</body>
+
+</html>

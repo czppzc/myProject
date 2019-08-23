@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <div id="app">
+                <input type="text" id="input">
+                <span id="inputShow"></span>
+            </div>
+            <script type="text/javascript">
+                var obj = {bindtext:'12432543543'};
+                console.log(obj.bindtext)
+                Object.defineProperty(obj, "bindtext", {
+                    //修改obj对象bindtext属性的set方法
+                    get:function(){
+                        console.log("进来了")
+                    document.getElementById('input').value=obj.bindtext||''
+                    document.getElementById('inputShow').innerHTML = obj.bindtext||'';
+                    },
+                    set: function (newVal) {
+                        document.getElementById('input').value = newVal;
+                        document.getElementById('inputShow').innerHTML = newVal;
+                    }
+                });
+                document.addEventListener('keyup', function (e) {
+                    //监听键盘操作，修改
+                    obj.bindtext = e.target.value;
+                });
+            </script>
+</body>
+</html>

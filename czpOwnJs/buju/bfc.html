@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<style>
+.aside {
+                    width: 100px;
+                    height: 150px;
+                    float: left;
+                    background: #f66;
+                }
+                .main {
+                    height: 200px;
+                    overflow: hidden;
+                    background: #fcc;
+                }
+                   .text{
+                    width: 500px;
+            }
+</style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="out-box">
+        <div class="aside"></div>
+        <div class="text">
+            <div class="main">
+                <p><span></span></p>
+            </div>
+        </div>
+        <span class="test-span"></span>
+        </div>
+        <script>
+        var element=document.querySelector('.out-box');
+        function transDomJson(ele){
+       var treeNode={};
+       treeNode.tagName=ele.nodeName;
+       treeNode.className=ele.className;
+       treeNode.children=[].map.call(ele.children,v => transDomJson(v));
+       return treeNode
+        }
+        console.log(JSON.stringify(transDomJson(element)))
+        </script>
+</body>
+</html>
