@@ -44,6 +44,8 @@
 
     </div>
     <script>
+        //面向对象编程，实现一个拖拽功能 
+        //面向对象编程四大特点：1.抽象性，封装性，继承性也可叫复用性，多态性
         var totalwidth = document.body.clientWidth;
         var totalheight = document.body.clientHeight;
         function Drag(name) {
@@ -57,7 +59,7 @@
                  ev=ev||window.event;
                  that.fnDown(ev)
              } */
-            //箭头函数绑定this
+            //箭头函数解决this指向问题
             this.ele.onmousedown = (ev) => {
                 ev = ev || window.event;
                 this.fnDown(ev)

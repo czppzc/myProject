@@ -5,7 +5,10 @@ function rightMove(arr,k){
     if(!arr.length) return []
     var rightArr=arr.splice(arr.length-k,k);
     return rightArr.concat(arr)
-    
-
+}
+function simpleQu(arr,k){
+    for(var i=0;i<k;i++){
+        arr.shift(arr.pop())
+    }
 }
 console.log(rightMove([1,2,3,4,5,6],4))
