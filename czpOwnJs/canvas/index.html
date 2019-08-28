@@ -23,6 +23,7 @@
 </head>
 <body>
     <canvas id="c1" width="400" height="400"></canvas>
+    <button id='btn'>清除</button>
     <script>
     var c1=document.getElementById('c1');
     //获取画布
@@ -49,6 +50,9 @@
             document.onmouseup=null;
         }
 
+    }
+    document.getElementById('btn').onclick=function(){
+        oc.clearRect(0,0,c1.width,c1.height)
     }
     
     </script>
