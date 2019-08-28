@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    html,body{
+        height: 100%;
+        background: black;
+    }
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    /*默认宽300，高150px*/
+    #c1{
+        background: white;
+    }
+    </style>
+</head>
+<body>
+    <canvas id="c1" width="400" height="400"></canvas>
+    <script>
+    var c1=document.getElementById('c1');
+    //获取画布
+    var oc=c1.getContext('2d');//canvas目前只支持2D，webGL支持3D，three.js
+    //oc.fillRect(50,50,100,100) //画方块
+//样式中的宽高是等比例缩放，canvas中的宽高是画布真正的大小
+    //oc.stokeRect(50,50,100,100)
+ /*    oc.moveTo(100,100);
+    oc.lineTo(50,150);
+    oc.lineTo(150,150);
+    oc.closePath();
+    oc.stroke() */
+    //鼠标画线
+    c1.onmousedown=function(e){
+        e=e||window.event;
+        oc.moveTo(e.clientX,e.clientY);
+        document.onmousemove=function(ev){
+            ev=ev||window.event;
+            oc.lineTo(ev.clientX,ev.clientY);
+            oc.stroke()
+        }
+        document.onmouseup=function(){
+            document.onmousemove=null;
+            document.onmouseup=null;
+        }
+
+    }
+    
+    </script>
+</body>
+</html>
