@@ -18,7 +18,7 @@ function partReturn(l,n,m){
     var cur=newL.next;
     for(var i=1;i<n;i++){
         p=p.next; //p变成了反转起始位置的前一个节点
-        cur=cur.next;//p变成了反转起始位置的节点
+        cur=cur.next;//cur变成了反转起始位置的节点
     }
     for(var i=0;i<m-n;i++){
         var temp=cur.next;  
@@ -74,3 +74,4 @@ Function.prototype.mybind=function(thisArg,...arg1){
     func.prototype.constructor=that;
     return func
 }
+console.log(JSON.stringify(returnLiao(a,2,4)))

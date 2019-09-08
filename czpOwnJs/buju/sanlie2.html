@@ -42,9 +42,16 @@
 </head>
 <body>
     <div>
-        <div class="left"></div>
+        <!-- <div class="left"></div>
         <div class='main'></div>
-        <div class="right"></div>
+        <div class="right"></div> -->
+        <a href="#/a">跳转到a</a>
     </div>
+    <script>
+    window.addEventListener('hashchange',() => {
+       window.location.hash='/3'
+    }
+    )
+    </script>
 </body>
 </html>
