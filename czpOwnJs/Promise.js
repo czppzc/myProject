@@ -73,7 +73,6 @@
         then(resolveCallback, rejectCallback) {
             //this._collect(resolveCallback, rejectCallback)
             return new MyPromise((resolve,reject) => {
-                    console.log(this,"测试")
                     this._collect((value) => {
                     if(typeof resolveCallback !=='function'){
                         return resolve(value)

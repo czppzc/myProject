@@ -4,18 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<script src="Tree.js"></script>
-<body>
-    <script>
-        function test(data) {
-            console.log(data)
-
+    <title>simple Input Todo</title>
+    <style>
+        .tag-input {
+            position: relative;
+            border: 1px solid #cccccc;
+            padding: 0 5px;
+            display: flex;
+            flex-flow: row wrap;
         }
-        var script = document.createElement('script');
-        script.src = 'test1.js';
-        document.body.appendChild(script)
+
+        .js-input {
+            width: 450px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 16px;
+            padding: 0;
+            margin: 5px 0;
+            outline: none;
+            border: none;
+            width: 6.5em;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .tag {
+            padding: 0 10px;
+            margin: 5px 5px 5px 0;
+            background: #25bb9b;
+            color: #ffffff;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tag-input">
+        <span class="tag">前端</span>
+        <span class="tag">编程题</span>
+        <span class="tag">示例</span>
+        <span class="tag">标签</span>
+        <input type="text" class="js-input" maxlength="6" placeholder="请输入标签">
+    </div>
+    <script>
+        var tagInput = {
+            isInited: false,
+            init: init,
+            bindEvent: bindEvent,
+            addTag: addTag,
+            removeTag: removeTag
+        };
+        tagInput.init();
+        function init() {
+            var that = this;
+            if (that.isInited) return;
+            that.isInited = true;
+            that.tagBox = document.querySelector('.tag-input')
+            // 请修改这一行代码，保存class为js-input的输入框的dom元素引用
+            var inputs = document.querySelector('.js-input');
+            that.input = inputs;
+            that.bindEvent();
+        }
+
+        function bindEvent() {
+            var that = this;
+            var input = that.input;
+            if (!input) return;
+            input.addEventListener('keydown', function (event) {
+                if (event.keyCode == 13) {
+                     var isEnter = true;
+                }
+                if (event.keyCode == 8) {
+                    var isDelete = true;
+                }
+                //(isEnter || isDelete) && event.preventDefault();
+                isEnter && that.addTag();
+                isDelete && that.removeTag(event);
+            });
+            input.parentNode.addEventListener('click', function () {
+                input.focus();
+            });
+        }
+
+        function addTag() {
+            console.log(10000)
+            var span = document.createElement('span');
+            span.className = 'tag';
+            span.innerText = this.input.value;
+            this.tagBox.insertBefore(span,this.input);
+            this.input.value=''
+        }
+
+        function removeTag(e) {
+            console.log(e.target.value)
+            if(this.input.value.length==0){
+                var targetBox=document.querySelectorAll('.tag');
+                targetBox.length&&this.tagBox.removeChild(targetBox[targetBox.length-1])
+            }
+         
+        }
     </script>
 </body>
 

@@ -39,7 +39,7 @@ function MyPromise(fn) {
             console.log(value,"test")
             let then = getThen(value)
             if (then) {
-                console.log("我执行了")
+                //console.log("我执行了")
                 return handler(then.bind(value))
             }
             resolve(value)
@@ -99,7 +99,7 @@ MyPromise.prototype.then = function (onFulFilled, onRejected) {
         })
     })
 }
-MyPromise.prototype.all=function(arr){
+MyPromise.all=function(arr){
         let aResult = [];    //用于存放每次执行后返回结果
         return new MyPromise((resolve, reject) => {
           let i = 0;

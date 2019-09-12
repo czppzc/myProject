@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .progress-box{
+    height: 20px;
+    width: 600px;
+    border-radius: 5px;
+    order: 1px solid #ccc;
+    background: #ddd;
+    margin: 50px auto;
+    }
+    .progress{
+    height: 20px;
+    width: 400px;
+    background: repeating-linear-gradient(70deg,#99CCFF 0px,#99CCFF 15px,#0099CC 15px,#0099cc 30px);
+    background-size: 42px 20px;
+   /*  background-repeat: no-repeat; */
+    /* background-position: 0px; */
+    animation: progress-triped 1s linear  infinite ;
+    }
+    @keyframes progress-triped{
+        from{
+            background-position: 42px 0px;
+        }to{
+            background-position: 0px 0px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="progress-box">
+        <div class="progress">
+
+        </div>
+    </div>
+</body>
+</html>
